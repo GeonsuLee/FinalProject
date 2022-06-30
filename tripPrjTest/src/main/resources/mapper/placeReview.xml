@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="placeReviewns">
+    
+
+    <!-- 리뷰 작성 -->
+    <insert id="placeReivewInsert" parameterType="placeReview">
+      insert into placereview (
+      						place_rev_id,
+      						place_id,
+      						rev_title,
+      						rev_content,
+      						rev_photo,
+      						rev_reg,
+      						rev_rate,
+      						rev_like,
+      						id,
+      						userphoto	) 
+				  values (
+     						place_review_seq.nextval,
+     						#{place_id},
+     						#{rev_title, jdbcType=VARCHAR},
+     						#{rev_content},
+     						#{rev_photo, jdbcType=VARCHAR},
+     						SYSDATE,
+     						#{rev_rate},
+     						#{rev_like, jdbcType=VARCHAR},
+     						#{id, jdbcType=VARCHAR},
+     						#{userphoto, jdbcType=VARCHAR}	)
+    </insert>  
+     
+     
+     <!-- 리뷰 게시물 수 -->
+     <select id="placeReviewCount" resultType="int">
+     	select count(place_rev_id) from placereview where place_id=#{place_id}
+     </select>
+     
+     
+     <!-- 게시판 목록 -->
+     <select id="placeReviewList" parameterType="int" resultType="placeReview">
+     	<![CDATA[
+		select * from (select rownum rnum, reviews.* from  
+	  	(select * from placereview order by rev_reg desc) reviews) 
+	    where place_id=#{place_id}
+		]]>
+     </select>
+     
+     <!-- 상세페이지 -->
+     <select id="foodReviewDetail" parameterType="int" resultType="placeReview">
+		select * from placereview where place_rev_id=#{place_rev_id}
+     </select>
+     
+     <!-- 리뷰수정 -->
+	<update id="placeReviewModify" parameterType="placeReview">
+		update placereview set rev_content=#{rev_content},
+							rev_rate=#{rev_rate},
+      						rev_photo=#{rev_photo, jdbcType=VARCHAR},
+      						rev_reg=SYSDATE
+      						where place_rev_id=#{place_rev_id}
+	</update>
+	
+	<!-- 리뷰 삭제 -->
+	<delete id="reviewDelete" parameterType="int">
+		delete from placereview where place_rev_id=#{place_rev_id}
+	</delete>
+   
+   
+   <!-- 리뷰 별점 평균 -->
+   <select id="reviewStar" resultType="double">
+   		select avg(rev_rate) from placereview where place_rev_id=#{place_rev_id}
+   </select>
+   
+</mapper>

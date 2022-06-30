@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+ <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="foodns">
+	
+	<select id="getCount" resultType="int">
+		select count(food_id) from food
+	</select>
+
+	<select id="getList" parameterType="int" resultType="food">
+	    <![CDATA[
+		select * from (select rownum rnum, food.* from  
+	  	(select * from food order by food_id asc) food) 
+	    where rnum >= ((#{page}-1) * 5+1)  and rnum <= (#{page} * 5)
+		]]>
+	</select>
+	
+	<!-- 게시판 저장 -->
+	<insert id="write" parameterType="food">
+		insert into food (
+							food_id,
+							food_name,
+							food_content,
+							food_photo,
+							food_addr,
+							food_tel,
+							food_hour,
+							food_feat,
+							food_type,
+							food_menu,
+							food_cost )
+				  values (
+							food_seq.nextval,
+							#{food_name, jdbcType=VARCHAR},
+							#{food_content, jdbcType=VARCHAR},
+							#{food_photo, jdbcType=VARCHAR},
+							#{food_addr, jdbcType=VARCHAR},
+							#{food_tel, jdbcType=VARCHAR},
+							#{food_hour, jdbcType=VARCHAR},
+							#{food_feat, jdbcType=VARCHAR},
+							#{food_type, jdbcType=VARCHAR},
+							#{food_menu, jdbcType=VARCHAR},
+							#{food_cost, jdbcType=VARCHAR} )
+	</insert>
+	
+	<!-- 상세 페이지 -->
+	<select id="getDetail" parameterType="int" resultType="food">
+		select * from food where food_id = #{food_id}
+	</select>
+	
+	<select id="getQueryList" parameterType="String" resultType="place">
+	    <![CDATA[
+		select * from  ( select rownum rnum, query.* from
+         (select place_name, place_addr, place_type from place
+         where place_addr like '%' || #{city, jdbcType=VARCHAR} || '%' 
+         union select food_name, food_addr, food_type from food
+         where food_addr like '%' || #{city, jdbcType=VARCHAR} || '%' 
+         union select room_name, room_addr, room_type from room
+         where room_addr like '%' || #{city, jdbcType=VARCHAR} || '%' ) query )
+         where rnum >= 1 and rnum <= 6 ORDER BY dbms_random.value
+		]]>
+	</select>
+	
+	<!-- 게시판 글 수정 페이지-->
+	<update id="modify" parameterType="food">
+		update food set food_name=#{food_name, jdbcType=VARCHAR}, 
+						food_content=#{food_content, jdbcType=VARCHAR},
+						food_photo=#{food_photo, jdbcType=VARCHAR}, 
+						food_addr=#{food_addr, jdbcType=VARCHAR}, 
+						food_tel=#{food_tel, jdbcType=VARCHAR},
+						food_hour=#{food_hour, jdbcType=VARCHAR}, 
+						food_feat=#{food_feat, jdbcType=VARCHAR}, 
+						food_type=#{food_type, jdbcType=VARCHAR},
+						food_menu=#{food_menu, jdbcType=VARCHAR}, 
+						food_cost=#{food_cost, jdbcType=VARCHAR}
+						where food_id=#{food_id}
+	</update>
+	
+	<!-- 게시물 삭제 -->
+	<delete id="delete" parameterType="int">
+		delete from food where food_id=#{food_id}
+	</delete>
+	
+	<select id="getMarkCount" parameterType="foodbookmark" resultType="int">
+		select count(food_id) from foodbookmark where id=#{id, jdbcType=VARCHAR} and food_id=#{food_id, jdbcType=INTEGER}
+	</select>
+	
+	<insert id="addMark" parameterType="foodbookmark">
+		insert into foodbookmark (
+								   food_mark_id,
+								   food_id,
+								   id )
+					values 		(
+							 	  foodbookmark_seq.nextval,
+								  #{food_id, jdbcType=INTEGER},
+							      #{id, jdbcType=VARCHAR})
+	</insert>
+	
+	<delete id="delMark" parameterType="foodbookmark">
+		delete from foodbookmark where id=#{id, jdbcType=VARCHAR} and food_id=#{food_id, jdbcType=INTEGER}
+	</delete>
+	
+	
+	<!-- 리뷰 평균 별점 업데이트 -->
+	<update id="starUpdata" parameterType="int">
+		update food set food_rate=#{food_rate, jdbcType=VARCHAR} where food_id=#{food_id}
+	</update>
+
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

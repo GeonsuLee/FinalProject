@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="roomReplyns">
+    
+
+    <!-- 리뷰 작성 -->
+    <insert id="roomReplyInsert" parameterType="roomReply">
+      insert into roomreply (
+      						room_reply_id,
+      						reply_content,
+      						reply_reg,
+      						room_rev_id,
+      						id,
+      						userphoto	) 
+				  values (
+     						room_reply_seq.nextval,
+     						#{reply_content},
+     						SYSDATE,
+     						#{room_rev_id},
+     						#{id, jdbcType=VARCHAR},
+     						#{userphoto, jdbcType=VARCHAR}	)
+    </insert>  
+     
+     
+     <!-- 리뷰 게시물 수 -->
+     <select id="roomReplyCount" resultType="int">
+     	select count(room_reply_id) from roomreply
+     </select>
+     
+     
+     <!-- 게시판 목록 -->
+     <select id="roomReplyList" parameterType="int" resultType="roomReply">
+     	select * from roomreply where room_rev_id=#{room_rev_id} order by room_reply_id
+     </select>
+     
+     <!-- 상세페이지 -->
+     <select id="roomReviewDetail" parameterType="int" resultType="roomReply">
+		select * from roomreview where room_rev_id=#{room_rev_id}
+     </select>
+     
+    <!-- 댓글 삭제 -->
+	<delete id="replyDelete" parameterType="int">
+		delete from roomreview where room_rev_id=#{room_rev_id}
+	</delete>
+	
+   
+</mapper>
+

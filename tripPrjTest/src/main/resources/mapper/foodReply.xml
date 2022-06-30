@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+ <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="foodReplyns">
+    
+
+    <!-- 리뷰 댓글 작성 -->
+    <insert id="foodReplyInsert" parameterType="foodReply">
+      insert into foodreply (
+      						food_reply_id,
+      						reply_content,
+      						reply_reg,
+      						food_rev_id,
+      						id,
+      						userphoto	) 
+				  values (
+     						food_reply_seq.nextval,
+     						#{reply_content},
+     						SYSDATE,
+     						#{food_rev_id},
+     						#{id, jdbcType=VARCHAR},
+     						#{userphoto, jdbcType=VARCHAR}	)
+    </insert>  
+     
+     
+     <!-- 리뷰 댓글 수 -->
+     <select id="foodReplyCount" resultType="int">
+     	select count(food_reply_id) from foodreply where food_rev_id=#{food_rev_id}
+     </select>
+     
+     
+     <!-- 게시판 댓글 목록 -->
+     <select id="foodReplyList" parameterType="int" resultType="foodReply">
+     	select * from foodreply where food_rev_id=#{food_rev_id} order by food_reply_id
+     </select>
+     
+     <!--리뷰 상세페이지 -->
+     <select id="foodReviewDetail" parameterType="int" resultType="foodReply">
+		select * from foodreview where food_rev_id=#{food_rev_id}
+     </select>
+     
+     <!-- 댓글 삭제 -->
+	 <delete id="replyDelete" parameterType="int">
+		 delete from foodreply where food_reply_id=#{food_reply_id}
+	 </delete>
+   
+     <!-- 댓글 상세 정보 -->
+   	 <select id="foodReplyDetail" parameterType="int" resultType="foodReply">
+   	 	select * from foodreply where food_reply_id=#{food_reply_id}
+   	 </select>
+   	 
+   	 <!-- 댓글 수정 -->
+   	 <update id="replyModify" parameterType="foodReply">
+   	 	update foodreply set reply_content=#{reply_content},
+   	 	reply_reg=sysdate where food_reply_id=#{food_reply_id}
+   	 </update>
+   	 
+</mapper>
+
+
+
+
+
+
+
+

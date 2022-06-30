@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="placeReplyns">
+    
+
+    <!-- 댓글 작성 -->
+    <insert id="placeReplyInsert" parameterType="placeReply">
+      insert into placereply (
+      						place_reply_id,
+      						reply_content,
+      						reply_reg,
+      						place_rev_id,
+      						id,
+      						userphoto	) 
+				  values (
+     						place_reply_seq.nextval,
+     						#{reply_content},
+     						SYSDATE,
+     						#{place_rev_id},
+     						#{id, jdbcType=VARCHAR},
+     						#{userphoto, jdbcType=VARCHAR}	)
+    </insert>  
+     
+     
+     <!-- 댓글 수 -->
+     <select id="placeReplyCount" resultType="int">
+     	select count(place_reply_id) from placereply
+     </select>
+     
+     
+     <!-- 댓글 목록 -->
+     <select id="placeReplyList" parameterType="int" resultType="placeReply">
+     	select * from placereply where place_rev_id=#{place_rev_id} order by place_reply_id
+     </select>
+     
+     <!-- 댓글 상세페이지 -->
+     <select id="placeReviewDetail" parameterType="int" resultType="placeReply">
+		select * from placereview where place_rev_id=#{place_rev_id}
+     </select>
+     
+     <!-- 댓글 삭제 -->
+	<delete id="replyDelete" parameterType="int">
+		delete from placereview where place_rev_id=#{place_rev_id}
+	</delete>
+	
+   
+</mapper>
+
+

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+ <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="memberns">
+        
+    <!-- 비밀번호 검색 -->
+    <select id="pwFind" resultType="member" parameterType="member">
+    	select * from member where id=#{id} and name=#{name}
+    </select>
+    
+    <!-- 회원가입 -->
+    <insert id="join" parameterType="member">
+    	insert into member (id,pw,name,tel,mail,post,addr1,addr2,reg,profile,quit)
+    	values (#{id},#{pw},#{name},#{tel},#{mail},#{post},#{addr1},#{addr2},sysdate,#{profile, jdbcType=VARCHAR},'n')
+    </insert>
+    
+    <!-- 회원정보 호출 -->
+    <select id="getMember" parameterType="String" resultType="member">
+    	select * from member where id=#{id}
+    </select>
+    
+    <!-- 이메일 중복 체크 -->
+    <select id="mailCheck" parameterType="String" resultType="member">
+    	select * from member where mail=#{mail}
+    </select>
+    
+    <!--카카오 정보 찾기 -->
+	<select id="findKakao" parameterType="java.util.HashMap" resultType="member">
+		select * from member where name=#{nickname} and mail=#{email}
+	</select>
+
+	<!--카카오 정보 저장 -->
+	 <insert id="kakaoInsert" parameterType="java.util.HashMap">
+		insert into member(id,pw,name,mail)values(#{email},'kakao123',#{nickname},#{email})
+	</insert>
+
+</mapper>

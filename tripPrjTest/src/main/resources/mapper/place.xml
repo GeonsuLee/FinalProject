@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+ <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="placens">
+
+	<select id="getCount" resultType="int">
+		select count(place_id) from place
+	</select>
+
+	<select id="getList" parameterType="int" resultType="place">
+	    <![CDATA[
+		select * from (select rownum rnum, place.* from  
+	  	(select * from place order by place_id asc) place) 
+	    where rnum >= ((#{page}-1) * 5+1)  and rnum <= (#{page} * 5)
+		]]>
+	</select>
+	
+	<select id="getFilterCount" parameterType="placeFilter" resultType="int">
+		<![CDATA[
+		select count(place_id) from
+		( select * from place where place_addr like '%' || #{city, jdbcType=VARCHAR} || '%' and place_addr like '%' || #{district, jdbcType=VARCHAR} || '%' )
+		where place_rate like '%' || #{rate, jdbcType=VARCHAR} || '%'
+		]]>
+		<if test='act.size != 0'>
+	    and place_act in
+	  	<foreach item="actChk" index="idx" collection="act" open="(" separator="," close=")">
+         #{actChk, jdbcType=VARCHAR}
+    	</foreach>
+    	</if>
+    	<if test='type.size != 0'>
+	    and place_type in
+	  	<foreach item="typeChk" index="idx" collection="type" open="(" separator="," close=")">
+         #{typeChk, jdbcType=VARCHAR}
+    	</foreach>
+    	</if>
+	</select>
+	
+	<select id="getFilterList" parameterType="placeFilter" resultType="place">
+	    <![CDATA[ 
+		select * from (select rownum rnum, place.* from 
+	  	(select * from place where place_addr like '%' || #{city, jdbcType=VARCHAR} || '%' and place_addr like '%' || #{district, jdbcType=VARCHAR} || '%'	  	
+	  	order by place_id asc) place where place_rate like '%' || #{rate, jdbcType=VARCHAR} || '%' ) 
+	    where rnum >= ((#{page, jdbcType=INTEGER}-1) * 5+1)  and rnum <= (#{page, jdbcType=INTEGER} * 5)
+	    ]]>
+	    <if test='act.size != 0'>
+	    and place_act in
+	  	<foreach item="actChk" index="idx" collection="act" open="(" separator="," close=")">
+         #{actChk, jdbcType=VARCHAR}
+    	</foreach>
+    	</if>
+    	<if test='type.size != 0'>
+	    and place_type in
+	  	<foreach item="typeChk" index="idx" collection="type" open="(" separator="," close=")">
+         #{typeChk, jdbcType=VARCHAR}
+    	</foreach>
+    	</if>
+		
+	</select>
+	
+	<!-- 게시판 저장 -->
+	<insert id="write" parameterType="place">
+		insert into place (
+							place_id,
+							place_name,
+							place_content,
+							place_photo,
+							place_addr,
+							place_tel,
+							place_hour,
+							place_act,
+							place_type,
+							place_rate )
+				  values (
+							place_seq.nextval,
+							#{place_name, jdbcType=VARCHAR},
+							#{place_content, jdbcType=VARCHAR},
+							#{place_photo, jdbcType=VARCHAR},
+							#{place_addr, jdbcType=VARCHAR},
+							#{place_tel, jdbcType=VARCHAR},
+							#{place_hour, jdbcType=VARCHAR},
+							#{place_act, jdbcType=VARCHAR},
+							#{place_type, jdbcType=VARCHAR},
+							#{place_rate, jdbcType=VARCHAR} )
+	</insert>
+	
+	<select id="getDetail" parameterType="int" resultType="place">
+		select * from place where place_id = #{place_id}
+	</select>
+	
+	<select id="getQueryList" parameterType="String" resultType="place">
+	    <![CDATA[
+		select * from  ( select rownum rnum, query.* from
+         (select place_name, place_addr, place_photo from place
+         where place_addr like '%' || #{city, jdbcType=VARCHAR} || '%') query )
+         where rnum >= 1 and rnum <= 6 ORDER BY dbms_random.value
+		]]>
+	</select>
+	
+	<!-- 게시판 글 수정 페이지-->
+	<update id="modify" parameterType="place">
+		update place set place_name=#{place_name, jdbcType=VARCHAR}, 
+						 place_content=#{place_content, jdbcType=VARCHAR},
+						 place_photo=#{place_photo, jdbcType=VARCHAR}, 
+						 place_addr=#{place_addr, jdbcType=VARCHAR}, 
+						 place_tel=#{place_tel, jdbcType=VARCHAR},
+						 place_hour=#{place_hour, jdbcType=VARCHAR}, 
+						 place_act=#{place_act, jdbcType=VARCHAR}, 
+						 place_type=#{place_type, jdbcType=VARCHAR},
+						 place_rate=#{place_rate, jdbcType=VARCHAR} 
+						 where place_id=#{place_id}
+	</update>
+	
+	<!-- 게시물 삭제 -->
+	<delete id="delete" parameterType="int">
+		delete from place where place_id=#{place_id}
+	</delete>
+	
+	<select id="getMarkCount" parameterType="placebookmark" resultType="int">
+		select count(place_id) from placebookmark where id=#{id, jdbcType=VARCHAR} and place_id=#{place_id, jdbcType=INTEGER}
+	</select>
+	
+	<insert id="addMark" parameterType="placebookmark">
+		insert into placebookmark (
+								   place_mark_id,
+								   place_id,
+								   id )
+					values 		(
+							 	  placebookmark_seq.nextval,
+								  #{place_id, jdbcType=INTEGER},
+							      #{id, jdbcType=VARCHAR})
+	</insert>
+	
+	<delete id="delMark" parameterType="placebookmark">
+		delete from placebookmark where id=#{id, jdbcType=VARCHAR} and place_id=#{place_id, jdbcType=INTEGER}
+	</delete>
+	
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

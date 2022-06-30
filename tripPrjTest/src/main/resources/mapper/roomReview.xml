@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="roomReviewns">
+    
+
+    <!-- 리뷰 작성 -->
+    <insert id="roomReivewInsert" parameterType="roomReview">
+      insert into roomreview (
+      						room_rev_id,
+      						room_id,
+      						rev_title,
+      						rev_content,
+      						rev_photo,
+      						rev_reg,
+      						rev_rate,
+      						rev_like,
+      						id,
+      						userphoto	) 
+				  values (
+     						room_review_seq.nextval,
+     						#{room_id},
+     						#{rev_title, jdbcType=VARCHAR},
+     						#{rev_content},
+     						#{rev_photo, jdbcType=VARCHAR},
+     						SYSDATE,
+     						#{rev_rate},
+     						#{rev_like, jdbcType=VARCHAR},
+     						#{id, jdbcType=VARCHAR},
+     						#{userphoto, jdbcType=VARCHAR}	)
+    </insert>  
+     
+     
+     <!-- 리뷰 게시물 수 -->
+     <select id="roomReviewCount" resultType="int">
+     	select count(room_rev_id) from roomreview
+     </select>
+     
+     
+     <!-- 게시판 목록 -->
+     <select id="roomReviewList" parameterType="int" resultType="roomReview">
+     	<![CDATA[
+		select * from (select rownum rnum, reviews.* from  
+	  	(select * from roomreview order by room_rev_id asc) reviews) 
+	    where rnum >= ((#{page}-1) * 10+1)  and rnum <= (#{page} * 10)
+		]]>
+     </select>
+     
+     <!-- 상세페이지 -->
+     <select id="roomReviewDetail" parameterType="int" resultType="roomReview">
+		select * from roomreview where room_rev_id=#{room_rev_id}
+     </select>
+     
+     <!-- 리뷰수정 -->
+	<update id="roomReviewModify" parameterType="roomReview">
+		update roomreview set rev_content=#{rev_content},
+							rev_rate=#{rev_rate},
+      						rev_photo=#{rev_photo, jdbcType=VARCHAR},
+      						rev_reg=SYSDATE
+      						where room_rev_id=#{room_rev_id}
+	</update>
+	
+	<!-- 리뷰 삭제 -->
+	<delete id="reviewDelete" parameterType="int">
+		delete from roomreview where room_rev_id=#{room_rev_id}
+	</delete>
+   
+   
+   <!-- 리뷰 별점 평균 -->
+   <select id="reviewStar" resultType="double">
+   		select avg(rev_rate) from roomreview where room_rev_id=#{room_rev_id}
+   </select>
+   
+</mapper>

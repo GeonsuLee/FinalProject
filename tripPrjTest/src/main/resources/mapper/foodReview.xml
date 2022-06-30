@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+ <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="foodReviewns">
+    
+
+    <!-- 리뷰 작성 -->
+    <insert id="foodReivewInsert" parameterType="foodReview">
+      insert into foodreview (
+      						food_rev_id,
+      						food_id,
+      						rev_title,
+      						rev_content,
+      						rev_photo,
+      						rev_reg,
+      						rev_rate,
+      						rev_like,
+      						id,
+      						userphoto	) 
+				  values (
+     						food_review_seq.nextval,
+     						#{food_id},
+     						#{rev_title, jdbcType=VARCHAR},
+     						#{rev_content},
+     						#{rev_photo, jdbcType=VARCHAR},
+     						SYSDATE,
+     						#{rev_rate},
+     						#{rev_like, jdbcType=VARCHAR},
+     						#{id},
+     						#{userphoto, jdbcType=VARCHAR}	)
+    </insert>  
+     
+     
+     <!-- 리뷰 게시물 수 -->
+     <select id="foodReviewCount" resultType="int">
+     	select count(food_rev_id) from foodreview where food_id=#{food_id}
+     </select>
+     
+     
+     <!-- 게시판 목록 -->
+     <select id="foodReviewList" parameterType="int" resultType="foodReview">
+     	<![CDATA[
+		select * from (select rownum rnum, reviews.* from  
+	  	(select * from foodreview order by rev_reg desc) reviews) 
+	    where food_id=#{food_id}
+		]]>
+     </select>
+     
+     <!-- 상세페이지 -->
+     <select id="foodReviewDetail" parameterType="int" resultType="foodReview">
+		select * from foodreview where food_rev_id=#{food_rev_id}
+     </select>
+     
+     <!-- 리뷰수정 -->
+	<update id="foodReviewModify" parameterType="foodReview">
+		update foodreview set rev_content=#{rev_content},
+							rev_rate=#{rev_rate},
+      						rev_photo=#{rev_photo, jdbcType=VARCHAR},
+      						rev_reg=SYSDATE
+      						where food_rev_id=#{food_rev_id}
+	</update>
+	
+	<!-- 리뷰 삭제 -->
+	<delete id="reviewDelete" parameterType="int">
+		delete from foodreview where food_rev_id=#{food_rev_id}
+	</delete>
+   
+   
+   <!-- 리뷰 별점 평균 -->
+   <select id="reviewStar" resultType="double">
+   		select round(avg(rev_rate),1) from foodreview where food_id=#{food_id}
+   </select>
+   
+   
+   <!-- 리뷰 좋아요 -->
+   <update id="foodLikeUpdate" parameterType="int">
+   		update foodreview set rev_like = rev_like+1 where food_rev_id=#{food_rev_id}
+   </update>
+   
+   <!-- 리뷰 좋아요 테이블에 데이터 저장 -->
+   <insert id="foodLikeInsert" parameterType="foodLike">
+   		insert into foodlike (
+   								food_like_id,
+   								food_rev_id,
+   								id )
+   								
+   					  values (
+   								food_like_seq.nextval,
+   								#{food_rev_id},
+   								#{id}
+   								)
+   </insert>
+   
+   <!-- 리뷰 좋아요 테이블 리스트 -->
+   <select id="getFoodLikeList" resultType="foodLike" parameterType="String">
+   		select * from foodlike where id=#{id}
+   </select>
+   
+   <!-- 리뷰 좋아요 food_rev_id -->
+   <select id="getFoodRevId" resultType="int" parameterType="String">
+   		select food_rev_id from foodlike where id=#{id}
+   </select>
+   
+</mapper>
+
+
+
+
+
+
+
+

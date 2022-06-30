@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mypagens">
+	
+	<!-- 회원정보 호출 -->
+	<select id="user_detail" parameterType="String" resultType="member">
+    	select * from member where id= #{id}
+    </select>
+	
+	<!-- 회원정보 수정 -->
+	<update id="mypage_modify" parameterType="member">
+		update member set pw=#{pw}, name=#{name}, tel=#{tel}, mail=#{mail},
+		post=#{post}, addr1=#{addr1}, addr2=#{addr2}, profile=#{profile, jdbcType=VARCHAR}
+		where id = #{id}
+	</update>
+
+	<!-- 회원탈퇴 -->
+	<update id="mypage_delete" parameterType="member"> 
+ 		update member set quit='y' where id = #{id}
+	</update>
+	
+	<!-- 식당 북마크 목록 -->
+	<select id="get_foodbookmark" parameterType="String" resultType="com.model.FoodBookmarkBean">
+		select * from food f, foodbookmark fbm where f.food_id = fbm.food_id and fbm.id = #{id}
+	</select>
+	
+	<!-- 명소 북마크 목록 -->
+	<select id="get_placebookmark" parameterType="String" resultType="com.model.PlaceBookmarkBean">
+		select * from place p, placebookmark pbm where p.place_id = pbm.place_id and pbm.id = #{id}
+	</select>
+	
+	<!-- 숙소 북마크 목록 -->
+	<select id="get_roombookmark" parameterType="String" resultType="com.model.RoomBookmarkBean">
+		select * from room r, roombookmark rbm where r.room_id = rbm.room_id and rbm.id = #{id}
+	</select>
+	
+	<!-- 식당 리뷰 목록 -->
+	<select id="get_foodreview" parameterType="String" resultType="foodreview">
+    	select * from foodreview where id = #{id}
+    </select>
+    
+    <!-- 명소 리뷰 목록 -->
+	<select id="get_placereview" parameterType="String" resultType="placereview">
+    	select * from placereview where id = #{id}
+    </select>
+    
+    <!-- 숙소 리뷰 목록 -->
+	<select id="get_roomreview" parameterType="String" resultType="roomreview">
+    	select * from roomreview where id = #{id}
+    </select>
+    
+    <!-- 식당 문의 목록 -->
+	<select id="get_foodqna" parameterType="String" resultType="foodqna">
+    	select * from foodqna where id = #{id}
+    </select>
+    
+    <!-- 명소 문의 목록 -->
+	<select id="get_placeqna" parameterType="String" resultType="placeqna">
+    	select * from placeqna where id = #{id}
+    </select>
+    
+    <!-- 숙소 문의 목록 -->
+	<select id="get_roomqna" parameterType="String" resultType="roomqna">
+    	select * from roomqna where id = #{id}
+    </select>
+
+	<!-- 식당 북마크 지우기 -->
+	<delete id="del_foodbookmark" parameterType="foodbookmark">
+		delete from foodbookmark where food_mark_id = #{food_mark_id}
+	</delete>
+	
+	<!-- 명소 북마크 지우기 -->
+	<delete id="del_placebookmark" parameterType="placebookmark">
+		delete from placebookmark where place_mark_id = #{place_mark_id}
+	</delete>
+	
+	<!-- 숙소 북마크 지우기 -->
+	<delete id="del_roombookmark" parameterType="roombookmark">
+		delete from roombookmark where room_mark_id = #{room_mark_id}
+	</delete>
+	
+</mapper>

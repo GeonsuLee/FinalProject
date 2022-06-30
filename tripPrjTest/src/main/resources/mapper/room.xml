@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+ <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="roomns">
+
+	<select id="getCount" resultType="int">
+		select count(room_id) from room
+	</select>
+
+	<select id="getList" parameterType="int" resultType="room">
+	    <![CDATA[
+		select * from (select rownum rnum, room.* from  
+	  	(select * from room order by room_id asc) room) 
+	    where rnum >= ((#{page}-1) * 9+1)  and rnum <= (#{page} * 9)
+		]]>
+	</select>
+	
+	<select id="getFilterCount" parameterType="roomFilter" resultType="int">
+		<![CDATA[
+		select count(room_id) from
+		( select * from room where room_addr like '%' || #{city, jdbcType=VARCHAR} || '%' and room_addr like '%' || #{district, jdbcType=VARCHAR} || '%' )
+		where room_cost >= #{minCost, jdbcType=INTEGER} and room_cost <= #{maxCost, jdbcType=INTEGER} and room_rate like '%' || #{rate, jdbcType=VARCHAR} || '%'
+		]]>
+		<if test='type.size != 0'>
+	    and room_type in
+	  	<foreach item="typeChk" index="idx" collection="type" open="(" separator="," close=")">
+         #{typeChk, jdbcType=VARCHAR}
+    	</foreach>
+    	</if>
+    	<if test='star.size != 0'>
+	    and room_star in
+	  	<foreach item="starChk" index="idx" collection="star" open="(" separator="," close=")">
+         #{starChk, jdbcType=VARCHAR}
+    	</foreach>
+    	</if>
+	</select>
+	
+	<select id="getFilterList" parameterType="roomFilter" resultType="room">
+	    <![CDATA[ 
+		select * from (select rownum rnum, room.* from 
+	  	(select * from room where room_addr like '%' || #{city, jdbcType=VARCHAR} || '%' and room_addr like '%' || #{district, jdbcType=VARCHAR} || '%'	  	
+	  	order by room_id asc) room where room_cost >= #{minCost, jdbcType=INTEGER} and room_cost <= #{maxCost, jdbcType=INTEGER} 
+	  	and room_rate like '%' || #{rate, jdbcType=VARCHAR} || '%' ) 
+	    where rnum >= ((#{page, jdbcType=INTEGER}-1) * 9+1)  and rnum <= (#{page, jdbcType=INTEGER} * 9)
+	    ]]>
+	    <if test='type.size != 0'>
+	    and room_type in
+	  	<foreach item="typeChk" index="idx" collection="type" open="(" separator="," close=")">
+         #{typeChk, jdbcType=VARCHAR}
+    	</foreach>
+    	</if>
+    	<if test='star.size != 0'>
+	    and room_star in
+	  	<foreach item="starChk" index="idx" collection="star" open="(" separator="," close=")">
+         #{starChk, jdbcType=VARCHAR}
+    	</foreach>
+    	</if>
+		
+	</select>
+	
+	<!-- 게시판 저장 -->
+	<insert id="write" parameterType="room">
+		insert into room (
+				room_id,
+				room_name,
+				room_content,
+				room_photo,
+				room_addr,
+				room_tel,
+				room_option,
+				room_type,
+				room_star,
+				room_cost,
+				room_rate )
+			values (
+					   room_seq.nextval,
+					   #{room_name, jdbcType=VARCHAR},
+					   #{room_content, jdbcType=VARCHAR},
+					   #{room_photo, jdbcType=VARCHAR},
+					   #{room_addr, jdbcType=VARCHAR},
+					   #{room_tel, jdbcType=VARCHAR},
+					   #{room_option, jdbcType=VARCHAR},
+					   #{room_type, jdbcType=VARCHAR},
+					   #{room_star, jdbcType=VARCHAR},
+					   #{room_cost, jdbcType=VARCHAR},
+					   #{room_rate, jdbcType=VARCHAR} )
+	</insert>
+	
+	<!-- 상세 페이지 -->
+	<select id="getDetail" parameterType="int" resultType="room">
+		select * from room where room_id = #{room_id}
+	</select>
+
+	<!-- 게시판 글 수정 페이지-->
+	<update id="modify" parameterType="room">
+		update room set room_name=#{room_name, jdbcType=VARCHAR},
+						room_content=#{room_content, jdbcType=VARCHAR},
+						room_photo=#{room_photo, jdbcType=VARCHAR},
+						room_addr=#{room_addr, jdbcType=VARCHAR},
+						room_tel=#{room_tel, jdbcType=VARCHAR},
+						room_option=#{room_option, jdbcType=VARCHAR},
+						room_type=#{room_type, jdbcType=VARCHAR},
+						room_star=#{room_star, jdbcType=VARCHAR},
+						room_cost=#{room_cost, jdbcType=VARCHAR},
+						room_rate=#{room_rate, jdbcType=VARCHAR}
+		where room_id=#{room_id}
+	</update>
+
+	<!-- 게시물 삭제 -->
+	<delete id="delete" parameterType="int">
+		delete from room where room_id=#{room_id}
+	</delete>
+
+</mapper>

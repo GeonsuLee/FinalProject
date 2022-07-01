@@ -82,5 +82,10 @@ public class PlaceDao {
 	public void delMark(PlaceBookmarkBean placemark) throws Exception {
 		session.delete("placens.delMark", placemark);
 	}
+	
+	// 별점 업데이트
+	public void starUpdata(int place_id) throws Exception{
+		session.update("placens.starUpdata", place_id);
+	}
 
 }

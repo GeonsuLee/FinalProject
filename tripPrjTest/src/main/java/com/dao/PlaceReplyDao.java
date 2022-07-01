@@ -23,9 +23,9 @@ public class PlaceReplyDao {
 	}
 	
 	// 장소 리뷰 댓글 총 갯수
-	public int getListCount() throws Exception{
+	public int getListCount(int place_rev_id) throws Exception{
 		int count = 0;
-		count = ((Integer) session.selectOne("placeReplyns.placeReplyCount")).intValue();
+		count = ((Integer) session.selectOne("placeReplyns.placeReplyCount", place_rev_id)).intValue();
 		return count;
 	}
 	
@@ -49,4 +49,6 @@ public class PlaceReplyDao {
 	public void replyModify(PlaceReplyBean replyBean) {
 		session.update("placeReplyns.replyModify", replyBean);
 	}
+
+
 }

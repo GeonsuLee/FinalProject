@@ -21,8 +21,8 @@ public class PlaceReplyService {
 	}
 	
 	// 음식 리뷰 댓글의 총 갯수
-	public int getListCount() throws Exception{
-		return dao.getListCount();
+	public int getListCount(int place_rev_id) throws Exception{
+		return dao.getListCount(place_rev_id);
 	}
 	
 	// 음식 리뷰 댓글 리스트

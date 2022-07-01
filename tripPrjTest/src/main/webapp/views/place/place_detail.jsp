@@ -103,6 +103,46 @@
       };
     })();
   </script>
+  
+ <!-- 리뷰 함수(비동기)-->
+  <script src="webjars/jquery/dist/jquery.min.js"></script>
+  <script type="text/javascript">
+  
+	// 리뷰 작성 모달로 이동
+	function writes(place_id, page){
+		 $('#writeform').load('placeReviewWriteModal?place_id='+place_id+'&page='+page);
+	 }
+  
+  	// 리뷰 수정 모달로 이동
+  	function modify(place_rev_id, place_id, page){
+		 $('#modifyform').load('placeReviewModifyModal?place_rev_id='+place_rev_id+'&place_id='+place_id+'&page='+page);
+	 }
+	  
+	// 리뷰 댓글 작성 모달로 이동
+	 function reply(place_rev_id, page, place_id){
+		 $('#replyform').load('placeReplyWriteModal?place_rev_id='+place_rev_id+'&place_id='+place_id+'&page='+page);
+	 }
+
+
+	// 리뷰 댓글 리스트 컨트롤러로 이동
+	function replyList(place_rev_id, place_id, page){ 
+		$('#seeMoreOverview_'+place_rev_id).load('foodReplyList?place_rev_id='+place_rev_id+'&place_id='+place_id+'&page='+page);	
+	}
+	
+	// 리뷰 좋아요
+	function placelike(place_rev_id, place_id, page) {			
+		alert("클릭");
+		var id = $('#sessionScopeId').attr('value');
+		var formData='place_rev_id='+place_rev_id+'&place_id='+place_id+'&page='+page+'&id='+id;
+		$.post('placeReviewLike',formData, function(data) {
+			
+			history.go(0);
+		});
+	};
+  </script> 
+  
+  
+  
   <!-- Vendor Styles-->
   <link rel="stylesheet" media="screen" href="vendor/simplebar/dist/simplebar.min.css"/>
   <link rel="stylesheet" media="screen" href="vendor/lightgallery.js/dist/css/lightgallery.min.css"/>
@@ -365,6 +405,9 @@
     </div>
   </section>
 </main>
+
+<%@ include file="../food/food_qna_list.jsp" %>
+
 <!-- Footer-->
 <%@ include file="../footer.jsp" %>
 <!-- Back to top button--><a class="btn-scroll-top" href="#top" data-scroll><span class="btn-scroll-top-tooltip text-muted fs-sm me-2">Top</span><i class="btn-scroll-top-icon fi-chevron-up">   </i></a>

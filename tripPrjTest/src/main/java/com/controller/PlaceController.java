@@ -22,11 +22,15 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.FlashMap;
 import org.springframework.web.servlet.support.RequestContextUtils;
 
+import com.model.FoodLikeBean;
+import com.model.FoodReviewBean;
 import com.model.PlaceBean;
 import com.model.PlaceBookmarkBean;
 import com.model.PlaceFilterBean;
+import com.model.PlaceReviewBean;
 import com.model.RoomBean;
 import com.model.RoomFilterBean;
+import com.service.PlaceReviewService;
 import com.service.PlaceService;
 
 @Controller
@@ -34,6 +38,10 @@ public class PlaceController {
 
 	@Autowired
 	private PlaceService service;
+	
+	@Autowired
+	private PlaceReviewService reviewService;
+	
 
 	@RequestMapping("placeList")
 	public String placeList(Model model, HttpServletRequest request) throws Exception {
@@ -248,6 +256,29 @@ public class PlaceController {
 		
 		PlaceBean place = service.detail(place_id);
 		
+		double starAvg = 0;
+		
+		// 리뷰 리스트 객체 선언
+		List<PlaceReviewBean> reviewlist = new ArrayList<PlaceReviewBean>();
+		
+		// 리뷰 개수 구해오기
+		int listCount = reviewService.getListCount(place_id);
+		System.out.println("리스트 개수="+listCount);
+		
+		if(listCount > 0) {
+			
+			System.out.println("리뷰 리스트가 있는 경우");
+			starAvg = reviewService.getPlaceStar(place_id);
+		
+		}else {
+			listCount = 0;
+			System.out.println("리뷰 리스트가 없는 경우");
+		}
+		
+		// 리뷰 별점 평균을 저장 및 업데이트
+		place.setPlace_rate(starAvg);
+		service.starUpdata(place_id);
+		
 		String[] addr = place.getPlace_addr().split(" ");
 		String city = addr[1];
 		String[] hour = place.getPlace_hour().split(" ");
@@ -267,6 +298,37 @@ public class PlaceController {
 			model.addAttribute("queryList", queryList);
 			model.addAttribute("city", city);
 			model.addAttribute("isMark", isMark);
+			model.addAttribute("place_id", place_id);
+			
+			
+			// 리뷰 리스트 구해오기
+			reviewlist = reviewService.getPlaceReviewList(place_id);
+			place.setPlace_rate(place_id);
+			
+			
+//			if(id != null) {
+//				
+//			// 좋아요 리스트 구해오기
+//			List<PlaceLikeBean> reviewLike = new ArrayList<PlaceLikeBean>();
+//			reviewLike = reviewService.getPlaceLikeList(id);
+//			
+//			// 좋아요 food_rev_id 값 구해오기
+////			int food_rev_id = reviewService.getFoodRevId(id);
+//			
+////			model.addAttribute("food_rev_id", food_rev_id);
+//			model.addAttribute("reviewLike", reviewLike);
+//			System.out.println("reviewLike="+reviewLike);
+//
+//			}
+			
+			
+			
+			// view페이지에 공유
+			model.addAttribute("reviewlist", reviewlist);
+			model.addAttribute("starAvg", starAvg);
+			model.addAttribute("listCount", listCount);	
+
+			
 			return "place/place_detail";			// 내용보기 페이지 설정
 		
 		} 	else if (state.equals("modify")) { // 수정폼

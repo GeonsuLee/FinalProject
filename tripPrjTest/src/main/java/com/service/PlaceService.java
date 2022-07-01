@@ -70,4 +70,8 @@ public class PlaceService {
 	public void delMark(PlaceBookmarkBean placemark) throws Exception {
 		dao.delMark(placemark);
 	}
+	
+	public void starUpdata(int place_id) throws Exception{
+		dao.starUpdata(place_id);
+	}
 }

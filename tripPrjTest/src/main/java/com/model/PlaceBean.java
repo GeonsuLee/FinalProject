@@ -15,6 +15,6 @@ public class PlaceBean {
 	private String place_hour;
 	private String place_act;
 	private String place_type;
-	private String place_rate;
+	private double place_rate;
 	private String admin_id;
 }

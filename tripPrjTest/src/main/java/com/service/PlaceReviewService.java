@@ -29,9 +29,9 @@ public class PlaceReviewService {
 	
 	
 	// 리뷰 리스트
-	public List<PlaceReviewBean> getPlaceReviewList(int place_id) throws Exception{
-		return dao.getReviewList(place_id);
-	}
+		public List<PlaceReviewBean> getPlaceReviewList(int place_id) throws Exception{
+			return dao.getReviewList(place_id);
+		}
 	
 	
 	// 리뷰 수정

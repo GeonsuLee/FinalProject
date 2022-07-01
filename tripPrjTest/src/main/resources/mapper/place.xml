@@ -134,6 +134,11 @@
 		delete from placebookmark where id=#{id, jdbcType=VARCHAR} and place_id=#{place_id, jdbcType=INTEGER}
 	</delete>
 	
+	<!-- 리뷰 평균 별점 업데이트 -->
+	<update id="starUpdata" parameterType="int">
+		update place set place_rate=#{place_rate, jdbcType=VARCHAR} where place_id=#{place_id}
+	</update>
+	
 </mapper>
 
 

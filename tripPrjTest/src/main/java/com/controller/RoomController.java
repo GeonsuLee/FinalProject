@@ -22,9 +22,12 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.FlashMap;
 import org.springframework.web.servlet.support.RequestContextUtils;
 
+import com.model.FoodReviewBean;
 import com.model.PlaceBean;
 import com.model.RoomBean;
 import com.model.RoomFilterBean;
+import com.model.RoomReviewBean;
+import com.service.RoomReviewService;
 import com.service.RoomService;
 
 @Controller
@@ -32,6 +35,9 @@ public class RoomController {
 
 	@Autowired
 	private RoomService service;
+	
+	@Autowired
+	private RoomReviewService reviewService;
 
 	@RequestMapping("roomList")
 	public String roomList(Model model, HttpServletRequest request) throws Exception {
@@ -224,6 +230,29 @@ public class RoomController {
 		List<PlaceBean> queryList = new ArrayList<PlaceBean>(); 
 		
 		RoomBean room = service.detail(room_id);
+		
+		
+		double starAvg = 0;
+		
+		// 리뷰 리스트 객체 선언
+				List<RoomReviewBean> reviewlist = new ArrayList<RoomReviewBean>();
+
+				// 리뷰 개수 구해오기
+				int listCount = reviewService.getListCount(room_id);
+				
+				if(listCount > 0) {
+					
+					// 별점 평균 구해오기와서 starAvg에 저장
+					starAvg = reviewService.getRoomStar(room_id);
+					
+				}else {
+					listCount = 0;
+				}
+				
+				// 리뷰 별점 평균을 저장 및 업데이트
+//				room.setRoom_rate(starAvg);
+//				service.starUpdata(room_id);
+		
 		
 		String[] addr = room.getRoom_addr().split(" ");
 		String city = addr[1];

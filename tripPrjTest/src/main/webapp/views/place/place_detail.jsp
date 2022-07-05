@@ -148,6 +148,8 @@
   <link rel="stylesheet" media="screen" href="vendor/lightgallery.js/dist/css/lightgallery.min.css"/>
   <link rel="stylesheet" media="screen" href="vendor/tiny-slider/dist/tiny-slider.css"/>
   <link rel="stylesheet" media="screen" href="vendor/flatpickr/dist/flatpickr.min.css"/>
+  <link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/bbs.css" />
+  <link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/bbss.css" /> 
   <!-- Main Theme Styles + Bootstrap-->
   <link rel="stylesheet" media="screen" href="css/theme.min.css">
 </head>
@@ -406,7 +408,7 @@
   </section>
 </main>
 
-<%@ include file="../food/food_qna_list.jsp" %>
+<%@ include file="../place/place_qna_list.jsp" %>
 
 <!-- Footer-->
 <%@ include file="../footer.jsp" %>

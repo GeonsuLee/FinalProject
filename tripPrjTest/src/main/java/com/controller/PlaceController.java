@@ -230,6 +230,7 @@ public class PlaceController {
 							 PlaceBookmarkBean placemark,
 							 HttpSession session,
 							 Model model) throws Exception {
+		System.out.println("place_id="+place_id);
 		
 		 String id = (String) session.getAttribute("id");
 		  placemark.setId(id);
@@ -268,12 +269,14 @@ public class PlaceController {
 		if(listCount > 0) {
 			
 			System.out.println("리뷰 리스트가 있는 경우");
-			starAvg = reviewService.getPlaceStar(place_id);
+			//starAvg = reviewService.getPlaceStar(place_id);
 		
 		}else {
 			listCount = 0;
 			System.out.println("리뷰 리스트가 없는 경우");
 		}
+		
+		System.out.println("리뷰 갯수 구해와서 if문 빠져나옴");
 		
 		// 리뷰 별점 평균을 저장 및 업데이트
 		place.setPlace_rate(starAvg);
@@ -304,7 +307,7 @@ public class PlaceController {
 			// 리뷰 리스트 구해오기
 			reviewlist = reviewService.getPlaceReviewList(place_id);
 			place.setPlace_rate(place_id);
-			
+			System.out.println("reviewlist="+reviewlist);
 			
 //			if(id != null) {
 //				
@@ -321,7 +324,7 @@ public class PlaceController {
 //
 //			}
 			
-			
+			System.out.println("view페이지 공유 전까지 성공");
 			
 			// view페이지에 공유
 			model.addAttribute("reviewlist", reviewlist);

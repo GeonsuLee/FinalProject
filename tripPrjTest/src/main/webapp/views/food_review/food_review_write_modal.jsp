@@ -19,8 +19,9 @@
     <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
     <link rel="manifest" href="site.webmanifest">
     <link rel="mask-icon" color="#5bbad5" href="safari-pinned-tab.svg">
-   <link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/bbs.css" />
-   <link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/bbss.css" />
+<%--    <link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/bbs.css" /> --%>
+    <link rel="stylesheet" href="bbs.css">
+    <link rel="stylesheet" type="text/css" href="css/bbs.css">
     <meta name="msapplication-TileColor" content="#766df4">
     <meta name="theme-color" content="#ffffff">
     <!-- Page loading styles-->
@@ -142,6 +143,7 @@ $(document).ready(function(){
  					<span class="starpoint_bg" ></span> 
 		  		</div>
 			</div>
+		
 			</div>
                 <div class="mb-4">
                   <label class="form-label" for="review-text">리뷰 <span class='text-danger'>*</span></label>

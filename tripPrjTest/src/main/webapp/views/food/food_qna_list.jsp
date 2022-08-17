@@ -114,7 +114,7 @@
 					 		<input type="radio" name="starpoint" id="starpoint_${i}" class="star_radio" value="${i/2}"   > 
  					    	<label for="starpoint_${i}"  class="label_star" title="${i/2}"><span class="blind">${i/2}점</span></label> 
  					    </c:forEach>	
-					   		<span class="starpoint_bg" style="width: ${foodReview.rev_rate * 2 * 10}% !important"></span>
+					   		<span class="starpoint_bg" style="width: 70% !important"></span>
 					  	</div>
 					  	
 						</div>

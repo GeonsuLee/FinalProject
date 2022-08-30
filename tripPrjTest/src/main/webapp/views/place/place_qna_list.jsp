@@ -24,7 +24,7 @@
 								</c:if>
 								
 								<c:if test="${!empty sessionScope.id}">
-								<button class="btn btn-outline-primary mb-sm-0 mb-3" data-bs-toggle="modal" onclick="writes(${place_id},${page})">
+								<button class="btn btn-outline-primary mb-sm-0 mb-3" href="#modal-review" data-bs-toggle="modal" onclick="writes(${place_id},${page})">
               					<i class="fi-edit me-1"></i>리뷰 작성</button>   
               					</c:if>                                 
               					<div class="d-flex align-items-center ms-sm-4">
@@ -36,7 +36,7 @@
                             
                             
                               <!-- Review modal-->
-      <div class="modal fade" id="modal-review" tabindex="-1">
+    <div class="modal fade" id="modal-review" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered" role="document">
           <div class="modal-content">
             <div class="modal-header d-block position-relative border-0 pb-0 px-sm-5 px-4">

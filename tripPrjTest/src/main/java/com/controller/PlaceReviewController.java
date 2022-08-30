@@ -27,10 +27,12 @@ public class PlaceReviewController {
 	public String placeReviewModal(Model model, @RequestParam("place_id") int place_id,
 			@RequestParam("page") int page) throws Exception{
 		
-		System.out.println("컨트롤러 진입(글작성 모달로이동)");
+		System.out.println("글작성 modal controller 진입");
 
 		model.addAttribute("place_id", place_id);
 		model.addAttribute("page", page);
+		
+		System.out.println("공유 완료");
 		
 		return "place_review/place_review_write_modal";
 	}

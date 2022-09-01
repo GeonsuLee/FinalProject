@@ -273,5 +273,35 @@ public class PlaceReviewController {
 			return "redirect:/placeDetail?place_id=" + place_id + "&page=" + page + "&state=cont";
 		}
 		
+		// 리뷰 상세정보
+		@RequestMapping(value ="/placeReviewDetail")
+		public void placeReviewDetail(@RequestParam("place_rev_id") int place_rev_id, Model model) throws Exception {
+			System.out.println("컨트롤러 진입");
+			PlaceReviewBean placeReviewDetail = service.reviewDetail(place_rev_id);
+			model.addAttribute("placeReviewDetail", placeReviewDetail);
+			
+		}
+		
+		
+		
+		// 리뷰 삭제
+		@RequestMapping(value ="/placeReviewDelete")
+		public String foodReviewDelete(@RequestParam("place_rev_id") int place_rev_id, @RequestParam("place_id") int place_id,
+									   @RequestParam("page") int page,
+									  Model model) throws Exception{
+			System.out.println("place delete controller 진입");
+
+			service.reviewDelete(place_rev_id);
+			System.out.println("삭제완료");
+
+			
+			double starAvg = service.getPlaceStar(place_id);
+
+			System.out.println("starAvg="+starAvg);
+			
+			return "redirect:/placeDetail?place_id=" + place_id + "&page=" + page + "&state=cont";
+		}
+		
+		
 	
 }

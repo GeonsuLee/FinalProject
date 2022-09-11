@@ -55,7 +55,7 @@ public class PlaceReplyController {
 	
 	
 	
-	// 음식 댓글 작성
+	// 명소 댓글 작성
 	@RequestMapping("placeReplyWrite")
 	public String placeReplyWrite(@RequestParam("place_rev_id") int place_rev_id, 
 			@RequestParam("page") int page,
@@ -90,7 +90,7 @@ public class PlaceReplyController {
 	
 	
 	
-	// 음식 댓글 삭제
+	// 명소 댓글 삭제
 	@RequestMapping("placeReplyDelete")
 	public String placeReplyListDelete(@RequestParam("place_id") int place_id, 
 			@RequestParam("place_reply_id") int place_reply_id, @RequestParam("page") int page,

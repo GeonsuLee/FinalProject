@@ -1,17 +1,22 @@
 package com.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.model.MemberBean;
+import com.model.PlaceReplyBean;
+import com.model.PlaceReviewBean;
 import com.model.RoomReplyBean;
+import com.model.RoomReviewBean;
 import com.service.MemberService;
 import com.service.RoomReviewService;
 import com.service.RoomReplyService;
@@ -94,4 +99,42 @@ public class RoomReplyController {
 		return "redirect:/roomDetail?room_id="+room_id+"&page="+page+"&state=cont";
 	}
 	
+	
+	// 댓글 리스트
+		@RequestMapping("roomReplyList")
+		public String placeReplyList(@RequestParam("room_rev_id") int room_rev_id,
+				@RequestParam("room_id") int room_id, @RequestParam("page") int page,
+				Model model, HttpServletRequest request) throws Exception{
+				
+			RoomReviewBean review = service.reviewDetail(room_rev_id);
+						
+			System.out.println("room_rev_id="+room_rev_id);
+				
+			List<RoomReplyBean> roomReplyList = new ArrayList<RoomReplyBean>();
+				
+				
+			// 총 리스트 갯수
+			int listCount = roomReplyService.getListCount(room_rev_id);
+			System.out.println("listCount="+listCount);	
+			if(listCount == 0) {
+					return "room_reply/room_reply_list_result";
+					
+			}
+			
+			// food_rev_id값을 전달해서 댓글 리스트 구해오기
+			roomReplyList = roomReplyService.getRoomReplyList(room_rev_id);
+				
+			
+				
+			model.addAttribute("review",review);
+			model.addAttribute("roomReplyList", roomReplyList);
+			model.addAttribute("listCount",listCount);
+			model.addAttribute("page",page);
+			model.addAttribute("room_rev_id",room_rev_id);
+			model.addAttribute("room_id",room_id);
+			
+			System.out.println("roomReplyList="+roomReplyList);
+			
+			return "room_reply/room_reply_list";
+		}
 }

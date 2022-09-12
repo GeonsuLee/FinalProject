@@ -21,8 +21,8 @@ public class RoomReplyService {
 	}
 	
 	// 숙박 리뷰 댓글의 총 갯수
-	public int getListCount() throws Exception{
-		return dao.getListCount();
+	public int getListCount(int room_rev_id) throws Exception{
+		return dao.getListCount(room_rev_id);
 	}
 	
 	// 숙박 리뷰 댓글 리스트

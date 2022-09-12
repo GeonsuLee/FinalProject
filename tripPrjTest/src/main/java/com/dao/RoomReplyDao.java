@@ -23,9 +23,9 @@ public class RoomReplyDao {
 	}
 	
 	// 숙박 리뷰 댓글 총 갯수
-	public int getListCount() throws Exception{
+	public int getListCount(int room_rev_id) throws Exception{
 		int count = 0;
-		count = ((Integer) session.selectOne("roomReplyns.roomReplyCount")).intValue();
+		count = ((Integer) session.selectOne("roomReplyns.roomReplyCount", room_rev_id)).intValue();
 		return count;
 	}
 	

@@ -137,4 +137,28 @@ public class RoomReplyController {
 			
 			return "room_reply/room_reply_list";
 		}
+		
+		// 숙박 댓글 수정
+		@RequestMapping("roomReplywModify")
+		public String reviewModifyForm(@RequestParam("room_reply_id") int room_reply_id, 
+				@RequestParam("room_id") int room_id, @RequestParam("page") int page,
+				@RequestParam("reply_content") String reply_content,
+				Model model, HttpServletRequest request, RoomReplyBean replyBean,
+				HttpSession session) throws Exception{
+			
+			System.out.println("숙박 댓글 수정 컨트롤러진입");
+			System.out.println("room_reply_id="+room_reply_id);
+			System.out.println("room_id="+room_id);
+			System.out.println("page="+page);
+				
+			RoomReplyBean reply = roomReplyService.replyDetail(room_reply_id);
+
+			reply.setReply_content(reply_content);
+			
+			roomReplyService.replyModify(replyBean);
+			
+			System.out.println("수정 완료");
+			
+			return "redirect:/roomDetail?room_id=" + room_id + "&page=" + page + "&state=cont";
+		}
 }

@@ -50,7 +50,7 @@ public class PlaceReviewController {
 	
 	
 	// 리뷰 작성
-	@RequestMapping("placeReviewWrite")
+	@RequestMapping(value="/placeReviewWrite")
 	public String reviewWrite(@RequestParam(value ="starpoint") double rev_rate, 
 			@RequestParam("place_id") int place_id, @RequestParam("page") int page,
 			MultipartHttpServletRequest mtf, Model model, HttpServletRequest request,
@@ -137,6 +137,8 @@ public class PlaceReviewController {
 
 		// 회원 프로필 리뷰에 저장
 		placereview.setUserphoto(userphoto);
+		
+		
 		
 		
 		placereview.setId(id);

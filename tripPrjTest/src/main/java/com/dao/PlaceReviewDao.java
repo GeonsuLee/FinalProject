@@ -54,9 +54,9 @@ public class PlaceReviewDao {
 	}
 	
 	// 리뷰 평점
-	public int getPlaceStar(int place_rev_id) throws Exception{
-		int foodStar = 0;
-		return foodStar = ((Integer)session.selectOne("placeReviewns.reviewStar", place_rev_id)).intValue();
+	public double getPlaceStar(int place_id) throws Exception{
+		double placeStar = 0;
+		return placeStar = session.selectOne("placeReviewns.reviewStar", place_id);
 	}
 	
 }

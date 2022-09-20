@@ -55,8 +55,8 @@ public class PlaceReviewService {
 	
 	
 	// 리뷰 평점
-	public int getPlaceStar(int place_rev_id) throws Exception{
-		return dao.getPlaceStar(place_rev_id);	
+	public double getPlaceStar(int place_id) throws Exception{
+		return dao.getPlaceStar(place_id);	
 	}
 	
 	

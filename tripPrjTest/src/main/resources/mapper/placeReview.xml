@@ -69,7 +69,7 @@
    
    <!-- 리뷰 별점 평균 -->
    <select id="reviewStar" resultType="double">
-   		select avg(rev_rate) from placereview where place_rev_id=#{place_rev_id}
+   		select round(avg(rev_rate),1) from placereview where place_id=#{place_id}   
    </select>
    
 </mapper>

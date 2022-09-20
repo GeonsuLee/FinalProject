@@ -294,12 +294,14 @@ public class PlaceReviewController {
 			System.out.println("place delete controller 진입");
 
 			service.reviewDelete(place_rev_id);
-			System.out.println("삭제완료");
-
 			
 			double starAvg = service.getPlaceStar(place_id);
 
-			System.out.println("starAvg="+starAvg);
+			System.out.println("삭제완료");
+
+			
+
+	//		System.out.println("starAvg="+starAvg);
 			
 			return "redirect:/placeDetail?place_id=" + place_id + "&page=" + page + "&state=cont";
 		}

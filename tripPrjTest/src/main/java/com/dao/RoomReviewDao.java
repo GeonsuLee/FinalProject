@@ -54,9 +54,9 @@ public class RoomReviewDao {
 	}
 	
 	// 리뷰 평점
-	public int getRoomStar(int room_rev_id) throws Exception{
-		int foodStar = 0;
-		return foodStar = ((Integer)session.selectOne("roomReviewns.reviewStar", room_rev_id)).intValue();
+	public double getRoomStar(int room_id) throws Exception{
+		double foodStar = 0;
+		return foodStar = session.selectOne("roomReviewns.reviewStar", room_id);
 	}
 
 }

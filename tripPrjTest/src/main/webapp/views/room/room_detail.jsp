@@ -347,6 +347,10 @@
         </div>
       </section>
     </main>
+    
+    
+    <%@ include file="../room/room_qna_list.jsp" %>
+    
     <!-- Footer-->
     <%@ include file="../footer.jsp" %>
 

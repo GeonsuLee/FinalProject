@@ -68,7 +68,7 @@
    
    <!-- 리뷰 별점 평균 -->
    <select id="reviewStar" resultType="double">
-   		select avg(rev_rate) from roomreview where room_rev_id=#{room_rev_id}
+   		select round(avg(rev_rate),1) from roomreview where room_id=#{room_id}
    </select>
    
 </mapper>

@@ -55,7 +55,7 @@ public class RoomReviewService {
 	
 	
 	// 리뷰 평점
-	public int getRoomStar(int room_rev_id) throws Exception{
-		return dao.getRoomStar(room_rev_id);	
+	public double getRoomStar(int room_id) throws Exception{
+		return dao.getRoomStar(room_id);	
 	}
 }

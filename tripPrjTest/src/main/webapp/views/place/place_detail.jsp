@@ -126,7 +126,7 @@
 
 	// 리뷰 댓글 리스트 컨트롤러로 이동
 	function replyList(place_rev_id, place_id, page){ 
-		$('#seeMoreOverview_'+place_rev_id).load('foodReplyList?place_rev_id='+place_rev_id+'&place_id='+place_id+'&page='+page);	
+		$('#seeMoreOverview_'+place_rev_id).load('placeReplyList?place_rev_id='+place_rev_id+'&place_id='+place_id+'&page='+page);	
 	}
 	
 	// 리뷰 좋아요

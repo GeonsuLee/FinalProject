@@ -56,4 +56,8 @@ public class RoomService {
 		return dao.getQueryList(city);
 	}
 	
+	public void starUpdata(int room_id) throws Exception{
+		dao.starUpdata(room_id);
+	}
+	
 }

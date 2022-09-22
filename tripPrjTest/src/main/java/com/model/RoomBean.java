@@ -16,6 +16,6 @@ public class RoomBean {
 	private String room_type;
 	private String room_star;
 	private int room_cost;
-	private String room_rate;
+	private double room_rate;
 	private String admin_id;
 }

@@ -250,8 +250,8 @@ public class RoomController {
 				}
 				
 				// 리뷰 별점 평균을 저장 및 업데이트
-//				room.setRoom_rate(starAvg);
-//				service.starUpdata(room_id);
+				room.setRoom_rate(starAvg);
+				service.starUpdata(room_id);
 		
 		
 		String[] addr = room.getRoom_addr().split(" ");

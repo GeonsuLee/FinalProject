@@ -104,6 +104,60 @@
       })();
       
     </script>
+    
+    
+    <!-- 리뷰 함수(비동기)-->
+  <script src="webjars/jquery/dist/jquery.min.js"></script>
+  <script type="text/javascript">
+  
+	// 리뷰 작성 모달로 이동
+	function writes(room_id, page){
+		 $('#writeform').load('roomReviewWriteModal?room_id='+room_id+'&page='+page);
+	 }
+  
+  	// 리뷰 수정 모달로 이동
+  	function modify(room_rev_id, room_id, page){
+		 $('#modifyform').load('roomReviewModifyModal?room_rev_id='+room_rev_id+'&room_id='+room_id+'&page='+page);
+	 }
+	  
+	// 리뷰 댓글 작성 모달로 이동
+	 function reply(room_rev_id, page, room_id){
+		 $('#replyform').load('roomReplyWriteModal?room_rev_id='+room_rev_id+'&room_id='+room_id+'&page='+page);
+	 }
+
+
+	// 리뷰 댓글 리스트 컨트롤러로 이동
+	function replyList(room_rev_id, room_id, page){ 
+		$('#seeMoreOverview_'+room_rev_id).load('roomReplyList?room_rev_id='+room_rev_id+'&room_id='+room_id+'&page='+page);	
+	}
+	
+	// 리뷰 좋아요
+	function roomlike(room_rev_id, room_id, page) {			
+		alert("클릭");
+		var id = $('#sessionScopeId').attr('value');
+		var formData='room_rev_id='+room_rev_id+'&room_id='+room_id+'&page='+page+'&id='+id;
+		$.post('roomReviewLike',formData, function(data) {
+			
+			history.go(0);
+		});
+	};
+  </script> 
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <!-- Vendor Styles-->
     <link rel="stylesheet" media="screen" href="vendor/simplebar/dist/simplebar.min.css"/>
     <link rel="stylesheet" media="screen" href="vendor/lightgallery.js/dist/css/lightgallery.min.css"/>

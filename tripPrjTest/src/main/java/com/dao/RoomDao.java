@@ -67,4 +67,9 @@ public class RoomDao {
 		return querylist;
 	}
 	
+	// 별점 업데이트
+		public void starUpdata(int room_id) throws Exception{
+			session.update("roomns.starUpdata", room_id);
+		}
+	
 }

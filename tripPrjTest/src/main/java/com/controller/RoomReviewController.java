@@ -35,7 +35,7 @@ public class RoomReviewController {
 	private MemberService memberService;
 	
 	// 리뷰 작성 모달로 이동
-	@RequestMapping("/roomReviewWriteModal")
+	@RequestMapping("roomReviewWriteModal")
 	public String roomReviewWriteModal(Model model,
 			@RequestParam("room_id") int room_id, @RequestParam("page") int page) throws Exception{
 		

@@ -231,27 +231,29 @@ public class RoomController {
 		
 		RoomBean room = service.detail(room_id);
 		
-		
 		double starAvg = 0;
 		
-		// 리뷰 리스트 객체 선언
-				List<RoomReviewBean> reviewlist = new ArrayList<RoomReviewBean>();
-
-				// 리뷰 개수 구해오기
-				int listCount = reviewService.getListCount(room_id);
-				
-				if(listCount > 0) {
-					
-					// 별점 평균 구해오기와서 starAvg에 저장
-					starAvg = reviewService.getRoomStar(room_id);
-					
-				}else {
-					listCount = 0;
-				}
-				
-				// 리뷰 별점 평균을 저장 및 업데이트
-				room.setRoom_rate(starAvg);
-				service.starUpdata(room_id);
+		// 리뷰 리스트객체
+		List<RoomReviewBean> reviewlist = new ArrayList<RoomReviewBean>();
+		
+		// 리뷰 개수
+		int listCount = reviewService.getListCount(room_id);
+		
+		if(listCount>0) {
+			
+			System.out.println("리뷰 있음");
+			starAvg = reviewService.getRoomStar(room_id);
+			
+		}else {
+			
+			System.out.println("리뷰 없음");
+			listCount=0;
+		}
+		
+	
+		// 리뷰 별점 평균을 저장 및 업데이트
+		room.setRoom_rate(starAvg);
+		service.starUpdata(room_id);
 		
 		
 		String[] addr = room.getRoom_addr().split(" ");
@@ -269,6 +271,19 @@ public class RoomController {
 			model.addAttribute("roomDetail", roomDetail);
 			model.addAttribute("queryList", queryList);
 			model.addAttribute("city", city);
+			model.addAttribute("room_id", room_id);
+			
+			
+			// 리뷰 리스트 구해오기
+			reviewlist = reviewService.getRoomReviewList(room_id);
+			room.setRoom_rate(room_id);
+			System.out.println("reviewlist="+reviewlist);
+			
+			model.addAttribute("reviewlist",reviewlist);
+			model.addAttribute("starAvg",starAvg);
+			model.addAttribute("listCount",listCount);
+			
+			
 			return "room/room_detail"; // 내용보기 페이지 설정
 
 		} else if (state.equals("modify")) {// 수정폼

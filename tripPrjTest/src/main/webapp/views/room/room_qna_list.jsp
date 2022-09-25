@@ -176,7 +176,7 @@
     		  </div>
               </c:forEach>    
                             
-  							 Pagination
+<!--   							 Pagination
                             <nav class="mt-2 mb-4" aria-label="Reviews pagination">
                                 <ul class="pagination">
                                     <li class="page-item d-sm-none"><span class="page-link page-link-static">1 / 5</span></li>
@@ -187,7 +187,7 @@
                                     <li class="page-item d-none d-sm-block"><a class="page-link" href="#">8</a></li>
                                     <li class="page-item"><a class="page-link" href="#" aria-label="Next"><i class="fi-chevron-right"></i></a></li>
                                 </ul>
-                            </nav>
+                            </nav> -->
                         </div>
 
             <%@ include file="../room/qna_modal.jsp" %>

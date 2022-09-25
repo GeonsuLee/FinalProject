@@ -40,9 +40,9 @@
      <!-- 게시판 목록 -->
      <select id="roomReviewList" parameterType="int" resultType="roomReview">
      	<![CDATA[
-		select * from (select rownum rnum, reviews.* from  
-	  	(select * from roomreview order by room_rev_id asc) reviews) 
-	    where rnum >= ((#{page}-1) * 10+1)  and rnum <= (#{page} * 10)
+	    select * from (select rownum rnum, reviews.* from  
+	  	(select * from roomreview order by room_rev_id desc) reviews) 
+	  	where room_id=#{room_id}
 		]]>
      </select>
      

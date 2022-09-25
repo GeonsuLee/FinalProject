@@ -323,7 +323,7 @@ function replyList(room_rev_id){
               </div>          
             </div>
 
-            <!-- Pagination-->
+<%--             <!-- Pagination-->
             <nav class="mt-2 mb-4" aria-label="Reviews pagination">
               <ul class="pagination">
                 <li class="page-item d-sm-none"><span class="page-link page-link-static">1 / 5</span></li>
@@ -341,7 +341,7 @@ function replyList(room_rev_id){
                 
                 <li class="page-item"><a class="page-link" href="#" aria-label="Next"><i class="fi-chevron-right"></i></a></li>
               </ul>
-            </nav>
+            </nav> --%>
             		
 
       </section>

@@ -150,7 +150,7 @@ public class FoodController {
 	/* 상세 페이지, 수정 페이지, 삭제 페이지 */
 	@RequestMapping(value = "foodDetail")
 	public String foodDetail(@RequestParam("food_id") int food_id,
-							 @RequestParam("page") String page,
+							 @RequestParam("page") int page,
 							 @RequestParam("state") String state,
 							 FoodBookmarkBean foodmark,
 							 FoodLikeBean foodLike,
@@ -229,6 +229,35 @@ public class FoodController {
 			// 리뷰 리스트 구해오기
 			reviewlist = reviewService.getFoodReviewList(food_id);
 			food.setFood_rate(food_id);
+
+			int limit = 10; // 한 화면에 출력할 레코드수
+			
+			
+			if (request.getParameter("page") == null) {
+				page = 1;
+			}
+			
+			
+			// 총 리스트 수를 받아옴.
+			int relistCount = reviewService.getListCount(food_id);
+			// 총 페이지 수.
+			int maxPage = (int) ((double) relistCount / limit + 0.95); // 0.95를 더해서 올림
+																		// 처리.
+			// 현재 페이지에 보여줄 시작 페이지 수(1, 11, 21 등...)
+			int startPage = (((int) ((double) page / 10 + 0.9)) - 1) * 10 + 1;
+			// 현재 페이지에 보여줄 마지막 페이지 수.(10, 20, 30 등...)
+			int endPage = maxPage;
+	
+			if (endPage > startPage + 10 - 1)
+				endPage = startPage + 10 - 1;
+
+			model.addAttribute("page", page);
+			model.addAttribute("startPage", startPage);
+			model.addAttribute("endPage", endPage);
+			model.addAttribute("maxPage", maxPage);
+			
+			
+			
 			
 			
 			if(id != null) {

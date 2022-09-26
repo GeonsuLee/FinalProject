@@ -174,18 +174,45 @@
               </c:forEach>    
                             
   							 Pagination
-                            <nav class="mt-2 mb-4" aria-label="Reviews pagination">
+                             <nav class="mt-2 mb-4" aria-label="Reviews pagination">
                                 <ul class="pagination">
-                                    <li class="page-item d-sm-none"><span class="page-link page-link-static">1 / 5</span></li>
-                                    <li class="page-item active d-none d-sm-block" aria-current="page"><span class="page-link">1<span class="visually-hidden">(current)</span></span></li>
-                                    <li class="page-item d-none d-sm-block"><a class="page-link" href="#">2</a></li>
-                                    <li class="page-item d-none d-sm-block"><a class="page-link" href="#">3</a></li>
-                                    <li class="page-item d-none d-sm-block">...</li>
-                                    <li class="page-item d-none d-sm-block"><a class="page-link" href="#">8</a></li>
-                                    <li class="page-item"><a class="page-link" href="#" aria-label="Next"><i class="fi-chevron-right"></i></a></li>
-                                </ul>
-                            </nav>
-                        </div>
+                                
+                                <!-- 이전 블럭 -->
+                				<c:if test="${startPage > 10 }">
+                					<li class="page-item"><a class="page-link" href="foodList?page=${startPage-10 }" aria-label="Next"><i class="fi-chevron-left"></i></a></li>
+                				</c:if>
+                
+                				<!-- 1 페이지 -->
+                				<c:if test="${page != 1 && startPage != 1}">
+                					<li class="page-item d-none d-sm-block"><a class="page-link" href="foodList?page=1">1</a></li>
+                					<li class="page-item d-none d-sm-block">...</li>
+                				</c:if>
+                
+                				<!-- 블럭 당 페이지 출력 -->
+                				<c:forEach var="i" begin="${startPage }" end="${endPage }">
+                					<c:if test="${i == page }">
+                						<li class="page-item active d-none d-sm-block" aria-current="page"><span class="page-link">${i}<span class="visually-hidden">(current)</span></span></li>
+                					</c:if>
+               						<c:if test="${i != page}">
+                						<li class="page-item d-none d-sm-block"><a class="page-link" href="foodList?page=${i}">${i}</a></li>
+                					</c:if>
+                				</c:forEach>
+                
+                				<!-- 마지막 페이지 -->
+                				<c:if test="${page != pageCount}">
+                					<li class="page-item d-none d-sm-block">...</li>
+                					<li class="page-item d-none d-sm-block"><a class="page-link" href="foodList?page=${pageCount}">${pageCount}</a></li>
+                				</c:if>
+                
+                				<!-- 다음 블럭 -->
+                				<c:if test="${endPage < pageCount}">
+                					<li class="page-item"><a class="page-link" href="foodList?page=${startPage+10 }" aria-label="Next"><i class="fi-chevron-right"></i></a></li>
+                				</c:if>
+                				
+  								</ul>
+                             </nav>
+     
+              		</div>
 
             <%@ include file="../food/qna_modal.jsp" %>
 
@@ -305,6 +332,7 @@
                     <div></div>
                     <button class="btn btn-link btn-sm" type="button" href="#modal-reply" data-bs-toggle="modal"><i class="fi-reply fs-lg me-2"></i><span class="fw-normal">답장</span></button>
                 </div>
+                
                 <!-- Pagination-->
                 <nav class="mt-2 mb-4" aria-label="Reviews pagination">
                     <ul class="pagination">
@@ -317,6 +345,7 @@
                         <li class="page-item"><a class="page-link" href="#" aria-label="Next"><i class="fi-chevron-right"></i></a></li>
                     </ul>
                 </nav>
+                
             </div>
         </div>
         </div>

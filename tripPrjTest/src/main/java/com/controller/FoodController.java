@@ -260,20 +260,20 @@ public class FoodController {
 			
 			
 			
-			if(id != null) {
-				
-			// 좋아요 리스트 구해오기
-			List<FoodLikeBean> reviewLike = new ArrayList<FoodLikeBean>();
-			reviewLike = reviewService.getFoodLikeList(id);
-			
-			// 좋아요 food_rev_id 값 구해오기
-//			int food_rev_id = reviewService.getFoodRevId(id);
-			
-//			model.addAttribute("food_rev_id", food_rev_id);
-			model.addAttribute("reviewLike", reviewLike);
-			System.out.println("reviewLike="+reviewLike);
-
-			}
+//			if(id != null) {
+//				
+//			// 좋아요 리스트 구해오기
+//			List<FoodLikeBean> reviewLike = new ArrayList<FoodLikeBean>();
+//			reviewLike = reviewService.getFoodLikeList(id);
+//			
+//			// 좋아요 food_rev_id 값 구해오기
+////			int food_rev_id = reviewService.getFoodRevId(id);
+//			
+////			model.addAttribute("food_rev_id", food_rev_id);
+//			model.addAttribute("reviewLike", reviewLike);
+//			System.out.println("reviewLike="+reviewLike);
+//
+//			}
 			
 			
 			

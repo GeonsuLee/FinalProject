@@ -48,7 +48,7 @@
      </select>
      
      <!-- 상세페이지 -->
-     <select id="foodReviewDetail" parameterType="int" resultType="placeReview">
+     <select id="placeReviewDetail" parameterType="int" resultType="placeReview">
 		select * from placereview where place_rev_id=#{place_rev_id}
      </select>
      

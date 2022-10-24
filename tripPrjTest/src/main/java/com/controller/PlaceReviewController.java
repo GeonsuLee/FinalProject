@@ -163,9 +163,13 @@ public class PlaceReviewController {
 							@RequestParam("page") int page, Model model) throws Exception {
 			
 			System.out.println("place 수정 modal controller 진입");
+			System.out.println(place_id);
+			System.out.println(place_rev_id);
+			System.out.println(page);
 			
 			PlaceReviewBean placeReviewDetail = service.reviewDetail(place_rev_id);
 			
+			System.out.println(placeReviewDetail);
 			model.addAttribute("placeReviewDetail", placeReviewDetail);
 			model.addAttribute("place_rev_id", place_rev_id);
 			model.addAttribute("place_id", place_id);
@@ -295,7 +299,7 @@ public class PlaceReviewController {
 
 			service.reviewDelete(place_rev_id);
 			
-			double starAvg = service.getPlaceStar(place_id);
+	//		double starAvg = service.getPlaceStar(place_id);
 
 			System.out.println("삭제완료");
 

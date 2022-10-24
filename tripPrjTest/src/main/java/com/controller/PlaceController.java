@@ -295,6 +295,8 @@ public class PlaceController {
 
 		if (state.equals("cont")) { // 내용보기일때
 			
+			System.out.println("cont 까지 들어옴");
+			
 			String placeDetail = place.getPlace_content().replace("\n","<br/>");
 		//	글내용중 엔터키 친부분을 웹상에 보이게 할때 다음줄로 개행
 			model.addAttribute("placeDetail", placeDetail);

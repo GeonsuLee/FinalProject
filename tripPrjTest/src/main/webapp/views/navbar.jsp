@@ -47,6 +47,7 @@
           </div>
 </c:when>
 </c:choose>
+	<%-- <c:if test="${sessionScope.id eq 'admin' && isMain != true && !empty placeList }">  --%>
 	<c:if test="${sessionScope.id eq 'admin' && isMain != true && !empty placeList }"> 
     	<a class="btn btn-primary btn-sm ms-2 order-lg-3" href="placeWriteForm"><i class="fi-plus me-2"></i>글쓰기</a>
     </c:if>
